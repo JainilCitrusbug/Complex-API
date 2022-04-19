@@ -57,6 +57,9 @@ class Artist(models.Model):
     artist_name = models.CharField(max_length=50)
     artist_image = models.ImageField(upload_to="images/artist/", blank=True, null=True)
 
+    def __str__(self):
+        return self.artist_name
+
 class Genre(models.Model):
     genre_name = models.CharField(max_length=50)
     genre_image = models.ImageField(upload_to="images/genre/", blank=True, null=True)
@@ -69,10 +72,16 @@ class Song(models.Model):
     language = models.CharField(max_length=20)
     genre = models.ForeignKey(Genre, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.song_name
+
 class Playlist(models.Model):
     playlist_name = models.CharField(max_length=50)
     song = models.ManyToManyField(Song)
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     is_featured = models.BooleanField(default=False)
     playlist_image = models.ImageField(upload_to="images/playlist/", blank=True, null=True)
+
+    def __str__(self):
+        return self.playlist_name
 

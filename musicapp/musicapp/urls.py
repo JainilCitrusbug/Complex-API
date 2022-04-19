@@ -21,10 +21,23 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+
     path('user/', views.UserAPI.as_view(), name='user'),
+
     path('otp/', views.OTP.as_view(), name='otp'),
+
     path('login/', views.LoginView.as_view(), name='login'),
+
     path('artist/', views.ArtistView.as_view(), name='artist'),
+    path('artist/<int:id>/', views.ArtistView.as_view(), name='artist'),
+    path('artistsonglist/', views.ArtistSongListView.as_view(), name='artistsonglist'),
+
     path('song/', views.SongView.as_view(), name='song'),
+    path('song/<int:id>/', views.SongView.as_view(), name='song'),
+
+    path('playlist/', views.PlaylistView.as_view(), name='playlist'),
+    path('playlist/<int:id>/', views.PlaylistView.as_view(), name='playlist'),
+
+    path('userplaylist/', views.UserPlaylistView.as_view(), name='userplaylist'),
 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
