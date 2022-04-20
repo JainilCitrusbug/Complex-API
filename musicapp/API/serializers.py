@@ -25,8 +25,17 @@ class GenreSerializers(serializers.ModelSerializer):
         model = Genre
         fields = '__all__'
 
-class SongSerializers(serializers.ModelSerializer):
+class AddSongSerializers(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Song
+        fields = ['id','song_name','audio_file','song_image','artist','language','genre']
 
+    def create(self, validated_data):
+        return super().create(validated_data)
+
+class SongSerializers(serializers.ModelSerializer):
+    
     artist = ArtistSerializers(many = True)
     
     class Meta:

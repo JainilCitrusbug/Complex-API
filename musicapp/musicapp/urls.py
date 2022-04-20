@@ -19,6 +19,20 @@ from API import views
 from django.conf import settings
 from django.conf.urls.static import static
 
+from drf_yasg.views import get_schema_view
+from rest_framework import permissions
+from drf_yasg import openapi
+
+schema_view = get_schema_view(
+    openapi.Info(
+        title='CRUD API',
+        default_version="v1",
+        description='Test 1'
+    ),
+    public=True,
+    permission_classes=(permissions.AllowAny,),
+)
+
 urlpatterns = [
     path('admin/', admin.site.urls),
 
@@ -30,7 +44,9 @@ urlpatterns = [
 
     path('artist/', views.ArtistView.as_view(), name='artist'),
     path('artist/<int:id>/', views.ArtistView.as_view(), name='artist'),
+
     path('artistsonglist/', views.ArtistSongListView.as_view(), name='artistsonglist'),
+    path('artistsonglist/<int:id>/', views.ArtistSongListView.as_view(), name='artistsonglist'),
 
     path('song/', views.SongView.as_view(), name='song'),
     path('song/<int:id>/', views.SongView.as_view(), name='song'),
@@ -40,4 +56,7 @@ urlpatterns = [
 
     path('userplaylist/', views.UserPlaylistView.as_view(), name='userplaylist'),
 
+    path('swagger-ui/', schema_view.with_ui('swagger', cache_timeout=0), name='openapi-schema'),
+
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
