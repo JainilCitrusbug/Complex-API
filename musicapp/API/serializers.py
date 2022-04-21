@@ -37,6 +37,7 @@ class AddSongSerializers(serializers.ModelSerializer):
 class SongSerializers(serializers.ModelSerializer):
     
     artist = ArtistSerializers(many = True)
+    genre = GenreSerializers()
     
     class Meta:
         model = Song
@@ -106,3 +107,7 @@ class ArtistSongListSerializers(serializers.ModelSerializer):
     class Meta:
         model = Artist
         fields = ['id','artist_name','artist_image','Song_Count','songs']
+
+
+
+

@@ -1,9 +1,7 @@
 import random
-from unicodedata import name 
 from django.http import JsonResponse
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.generics import GenericAPIView
 from .models import *
 from .serializers import *
 from django.views.decorators.csrf import csrf_exempt
@@ -42,8 +40,7 @@ class OTP(APIView):
     def get(self, request):
         mobile = request.GET.get('mobile')
         if mobile:
-            user = CustomUser.objects.filter(mobile=mobile).first()
-            print(user)
+            user = CustomUser.objects.get(mobile=mobile)
             if mobile:
                 otp = random.randrange(111111, 999999)
                 user.otp = otp
@@ -62,7 +59,7 @@ class LoginView(APIView):
         mobile = request.POST.get('mobile')
         otp = request.POST.get('otp')
         if mobile and otp:
-            user = CustomUser.objects.filter(mobile=mobile, otp=otp).first()
+            user = CustomUser.objects.get(mobile=mobile, otp=otp)
             if user :
                 payload = {
                     'id' : user.id,
@@ -238,7 +235,9 @@ class UserPlaylistView(APIView):
             return JsonResponse({'Error':'Unauthenticated !'})
         else:
             user = CustomUser.objects.get(id=authentication(request)['id'])
-            print(user)
             playlist = Playlist.objects.filter(user__email=user)
             serializer = PlaylistListViewSerializers(playlist, many=True)
             return JsonResponse(serializer.data, safe=False)
+
+
+
